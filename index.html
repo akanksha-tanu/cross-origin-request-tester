@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Origin Request Tester</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cross-Origin Request Tester</h1>
+        <form id="request-form">
+            <div class="form-group">
+                <label for="url">URL:</label>
+                <input type="text" id="url" name="url" placeholder="Enter URL" required>
+            </div>
+            <div class="form-group">
+                <label for="file">File (optional):</label>
+                <input type="file" id="file" name="file">
+                <button type="button" id="remove-file" disabled>Remove File</button>
+            </div>
+            <div class="form-group">
+                <label for="method">HTTP Method:</label>
+                <select id="method" name="method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                    <option value="PATCH">PATCH</option>
+                    <option value="HEAD">HEAD</option>
+                </select>
+            </div>
+            <button type="submit">Send Request</button>
+        </form>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('request-form');
+        const responseDiv = document.getElementById('response');
+        const fileInput = document.getElementById('file');
+        const removeFileButton = document.getElementById('remove-file');
+
+        // Clear form fields on page load
+        window.onload = () => {
+            form.reset();
+            removeFileButton.disabled = true;
+        };
+
+        // Enable/disable the "Remove File" button based on file input
+        fileInput.addEventListener('change', () => {
+            removeFileButton.disabled = !fileInput.files.length;
+        });
+
+        // Remove the uploaded file
+        removeFileButton.addEventListener('click', () => {
+            fileInput.value = '';
+            removeFileButton.disabled = true;
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const url = document.getElementById('url').value;
+            const file = document.getElementById('file').files[0];
+            const method = document.getElementById('method').value;
+
+            try {
+                let response;
+                const requestOptions = {
+                    method,
+                    headers: {
+                        'Origin': 'https://example.com',
+                        'Custom-Header': 'val1'
+                    }
+                };
+
+                if (method !== 'GET' && method !== 'HEAD' && file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    requestOptions.body = formData;
+                }
+
+                response = await fetch(url, requestOptions);
+
+                const data = await response.text();
+                responseDiv.textContent = data;
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
