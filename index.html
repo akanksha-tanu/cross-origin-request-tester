@@ -30,65 +30,18 @@
                     <option value="HEAD">HEAD</option>
                 </select>
             </div>
+            <div class="form-group full-width">
+                <label for="headers">Additional Headers (optional):</label>
+                <textarea id="headers" name="headers" placeholder="Enter headers in the format: Header-Name: Header-Value"></textarea>
+            </div>
             <button type="submit">Send Request</button>
         </form>
-        <div id="response"></div>
+        <div id="response-container">
+            <h2>Response:</h2>
+            <div id="response"></div>
+        </div>
     </div>
 
-    <script>
-        const form = document.getElementById('request-form');
-        const responseDiv = document.getElementById('response');
-        const fileInput = document.getElementById('file');
-        const removeFileButton = document.getElementById('remove-file');
-
-        // Clear form fields on page load
-        window.onload = () => {
-            form.reset();
-            removeFileButton.disabled = true;
-        };
-
-        // Enable/disable the "Remove File" button based on file input
-        fileInput.addEventListener('change', () => {
-            removeFileButton.disabled = !fileInput.files.length;
-        });
-
-        // Remove the uploaded file
-        removeFileButton.addEventListener('click', () => {
-            fileInput.value = '';
-            removeFileButton.disabled = true;
-        });
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const url = document.getElementById('url').value;
-            const file = document.getElementById('file').files[0];
-            const method = document.getElementById('method').value;
-
-            try {
-                let response;
-                const requestOptions = {
-                    method,
-                    headers: {
-                        'Origin': 'https://example.com',
-                        'Custom-Header': 'val1'
-                    }
-                };
-
-                if (method !== 'GET' && method !== 'HEAD' && file) {
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    requestOptions.body = formData;
-                }
-
-                response = await fetch(url, requestOptions);
-
-                const data = await response.text();
-                responseDiv.textContent = data;
-            } catch (error) {
-                responseDiv.textContent = `Error: ${error.message}`;
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
