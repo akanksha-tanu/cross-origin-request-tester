@@ -1,5 +1,6 @@
 const form = document.getElementById('request-form');
 const responseDiv = document.getElementById('response');
+const responseDivStatus = document.getElementById('status');
 const fileInput = document.getElementById('file');
 const removeFileButton = document.getElementById('remove-file');
 const headersInput = document.getElementById('headers');
@@ -58,10 +59,13 @@ form.addEventListener('submit', async (event) => {
         }
 
         response = await fetch(url, requestOptions);
-
+        console.log(response);
+        console.log("response.headers =", response.headers);
         const data = await response.text();
+        responseDivStatus.textContent=response.status;
         responseDiv.textContent = data;
     } catch (error) {
+        // console.log(error)
         responseDiv.textContent = `Error: ${error.message}`;
     }
 });

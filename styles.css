@@ -72,14 +72,14 @@ button[type="button"]:hover {
     background-color: #6c5ce7;
 }
 
-#response {
+#response-box {
     margin-top: 30px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
     color: #333;
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
     word-wrap: break-word;
     font-family: monospace;
 }
