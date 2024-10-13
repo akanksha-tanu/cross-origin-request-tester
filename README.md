@@ -5,9 +5,8 @@ This is a simple web application that allows you to check if a website supports 
 ## Features
 
 - Enter a URL to check if it supports CORS
-- View the response headers and status code
-- Copy the response headers to the clipboard
-
+- View the status code and method response 
+- Review the response headers for Preflight and actual method through browser "Inspect" tool 
 
 ## Usage
 
