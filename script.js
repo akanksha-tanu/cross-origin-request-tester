@@ -34,7 +34,8 @@ form.addEventListener('submit', async (event) => {
         const requestOptions = {
             method,
             headers: {
-                'Origin': 'https://example.com'
+                'Origin': 'https://example.com',
+                'custom-header':'custom-val'
             }
         };
 
